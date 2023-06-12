@@ -1,0 +1,78 @@
+{% extends "features.html" %}
+{% block features_content %}
+<a href="{% url 'features' %}"><button>Back</button></a>
+<h1>Announcements</h1>
+{% if request.session.email == None %}
+<h3>Create Post</h3>
+{% else %}
+Whats on your mind?
+{% endif %}
+<div class="home_rapper">
+    <div>
+        {% if request.session.email == None %}
+        <div class="post_input">
+            <form action="submit_post/" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for x in form %}
+                {{ x.errors }}
+                {{x.label_tag}}<br>{{x}}
+           
+                {% endfor %}
+                <div class="upload_pic">
+                <input name="post_images" style="opacity: 0;width: 32px;height: 32px;" multiple="true"  type="file">
+                </div>
+                <button style="width: 100%;" type="submit">Post</button><br>
+            </form>
+        </div>
+        {% endif %}
+       <!-- <div style="background-color: rgba(245, 245, 245, 0.494); height: 100%;padding: 1rem;border-radius: 1rem;box-shadow: 0px 3px 8px 0px green;">
+        <h3>Online Users</h3>
+        {% for o in online %}
+            {% for olp in user_post_pic %}
+                {% if o.email == olp.prof_pic_of %}
+                <div style="display:grid; grid-template-columns:60px auto;">
+                <img style="height:40px;width:40px;border-radius: 1.4rem;box-shadow: 5px 0px 6px 0px rgba(16, 18, 17, 0.9);" src="{{ olp.profile_pic.url }}"/>
+                <h5 style="margin-top: 9px;">{{o.firstname}}&nbsp;{{o.lastname}}</h5>
+                </div>
+                {% endif %}
+            {% endfor %} 
+        {% endfor %}
+        </div>
+    </div>-->
+    <div class="posts_wrapper">
+       {%for x in posts%}
+       <div class="post">
+            <div>
+                {% for pp in user_post_pic %}
+                    {% if x.posted_by == pp.prof_pic_of %}
+                        <img style="height:40px;width:40px;border-radius: 1.4rem;box-shadow: 5px 0px 6px 0px rgba(16, 18, 17, 0.9);" src="{{ pp.profile_pic.url }}"/>
+                    {% endif %}
+                {% endfor %}
+                {% for t in admin_post_pic %}
+                    {% if x.posted_by == t.email %}
+                        <img style="height:40px;width:40px;border-radius: 1.4rem;box-shadow: 5px 0px 6px 0px rgba(16, 18, 17, 0.9);" src="{{ t.profile_pic.url }}"/>
+                    {% endif %}
+                {% endfor %}
+                {{x.posted_by}}
+            </div>
+            {%for v in postImage%}
+                {% if x.id == v.post_id %}
+                <img class="post_images" src="{{v.post_pic.url}}">
+                {% endif %}
+            {%endfor%}
+            <div  style="margin-left:2rem;">
+            <pre>{{x.content}}</pre>
+            {{x.date_posted}}
+            </div>
+            <div style="display:flex; flex-wrap: wrap;column-gap: 10px; flex-direction:row-reverse;">
+                {% if request.session.admin_email != None %}
+                <div><a href="{% url 'delete_post' x.pk %}"><button class="btnDelete"></button></a></div>
+                {% endif %}
+                <div><a href="{% url 'view_post' x.pk %}"><button class="btnView"></button></a></div>
+            </div>
+       </div>
+    
+       {%endfor%}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="form-flex-container">
+        <div class="form-box">
+            <form action="adminSubmitReg/" enctype="multipart/form-data"  method="post">{% csrf_token %}
+                <h1>Admin Registration Form</h1>
+                {% for message in messages %}
+                <h3 style="color:red;">{{message}}</h3>
+                {% endfor %}
+                {% for field in form %}
+                <div class="fieldWrapper">
+                    {{ field.errors }}
+                    {{ field.label_tag }}<br> {{ field }}
+                    {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <br><button type="submit">Register</button>
+                already have an account?&nbsp;<a href="/admin/login">Login Here</a>
+            </form>
+        </div>
+    </div>  
+</div>
+<style>
+    .container{
+        display:grid;
+    }
+</style>
+
+{% endblock %}

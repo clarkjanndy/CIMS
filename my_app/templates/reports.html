@@ -1,0 +1,97 @@
+{% extends "features.html" %}
+{% block features_content %}
+<a href="{% url 'features' %}"><button>Back</button></a>
+<h1>Reports</h1>
+
+<!-- <div id="container" style="width: 75%;">
+  <script>
+    // jquery function
+    $(document).ready(function(){
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    // labels: [{%for data in qs%}'{{data.editor_name}}',{%endfor%}], //loop through queryset, 
+                    labels: ['Sample','Sample','Sample','Sample','Sample','Sample','Sample','Sample','Sample','Sample'],
+                    datasets: [{
+                        label: '# of users',
+                        // data: [{%for data in qs%}{{data.num_users}},{%endfor%}],
+                        data : [10,28,45,89,36,36,90,99,45,89],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)', 
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes : [{
+                          display : true
+                        }],
+                        yAxes : [{
+                          ticks : {
+                            beginAtZero : true
+                          }
+                        }]
+                    }
+                }
+    });
+        });
+  </script>
+    <canvas id="myChart" width="400" height="100"></canvas> 
+  
+          <div>
+            <h1>Some Line Charts loaded in Ajax!</h1>
+
+            <canvas id="myCharts" width="500" height="100"></canvas>
+
+            
+            <script type="text/javascript">
+                $.get('{% url "line_chart_json" %}', function(data) {
+                    var ctx = $("#myCharts").get(0).getContext("2d");
+                    new Chart(ctx, {
+                        type: 'line', data: data
+                    });
+                });
+            </script>  
+          <div>
+</div> -->
+{% if dispensing_grap %}
+  <div>
+    <img src="{{ dispensing_grap }}" alt="Registered Users Graph">
+  </div>
+  {% else %}
+    <p>No registered users available to generate a graph.</p>
+  {% endif %}
+  {% if purchase_graph %}
+  <div>
+    <img src="{{ purchase_graph }}" alt="Registered Users Graph">
+  </div>
+  {% else %}
+    <p>No registered users available to generate a graph.</p>
+  {% endif %}
+  {% if graph_file %}
+      <div>
+          <h3>Visit Graph</h3>
+          <img src="{{ graph_file }}" alt="Visit Graph">
+      </div>
+  {% endif %}
+  {% if second_graph_data %}
+    <img src="{{ second_graph_data }}" alt="Registered Users Graph">
+  {% else %}
+    <p>No registered users available to generate a graph.</p>
+  {% endif %}
+{% endblock %}

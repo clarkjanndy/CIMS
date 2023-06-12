@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="admin-nav-flex-container">
+
+        <div class="nav_bar">
+            <a type="submit" href="/admin/home">Home</a>
+            <a href="/admin/for_confirmation"><text class="new_notification">{{count}}&nbsp;</text>New Apply</a>
+            <a href="/admin/users_list">Users List</a>
+            <a href="/admin/inventory">Med Inventory</a>
+        </div>
+        <div class="session">
+            <div>
+                <div>
+                    <a href="#">Hello...{{request.session.username}}</a>
+                    <a href="/admin/logout"><b>Logout</b></a>
+            </div>
+            </div>
+        </div>
+    </div>   
+   
+  
+    <div>
+       
+        {% block admin_content %}
+        <div>
+            <div>
+                <form action="submit_post/" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for x in form %}
+                    {{ x.errors }}
+                    {{x.label_tag}}<br>{{x}}
+                   
+                    {% endfor %}
+                    <div class="upload_pic">
+                    <input style="opacity: 0;width: 32px;height: 32px;"  type="file">
+                    </div>
+                    
+                    
+                    <button type="submit">Post</button><br>
+                </form>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+  
+{% endblock %}
+
+
+ 

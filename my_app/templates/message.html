@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div style="display:grid; grid-template-columns:250px auto 250px">
+        <div>
+            {% if request.session.email != None %}
+            <div style="height: max-content; box-shadow: 0px 2px 5px 0px black; border-radius:1rem; padding: 1rem; margin:1rem;">
+                <h2>Create Message</h2>
+                <div>
+                    <form style="display:flex; flex-direction:column; row-gap: 1rem;" action="{% url 'send' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for x in form %}
+                        {{x.label_tag}}{{x}}
+                        
+                        {% endfor %}                 
+                        <button type="submit">Send</button><br>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div style="height: max-content; box-shadow: 0px 2px 5px 0px black; border-radius:1rem; padding: 1rem; margin:1rem;">
+                <h2>Inbox</h2>
+                {% for b in message %}
+                <li><a><button>{{b.message_from}}</button></a></li>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div style="display:flex; flex-direction: column; row-gap: 1rem; padding: 1rem; box-shadow:0px 2px 5px 0px black; border-radius: 1rem; margin: 1rem;">
+            <h1>Messages</h1>
+            {% for a in message %}
+                <!-- to know the session -->
+                {% if request.session.email != None %}
+                    {% if request.session.email == a.message_to or request.session.email == a.message_from %}
+                        {% if request.session.email == a.message_to %}
+                            <div style="box-shadow: 0px 1px 3px 0px black; border-radius:.8rem; padding:1rem;">
+                                <a><button>{{a.message_from}}</button></a>{{a.date}}
+                            </div>
+                        {% else %}
+                            <div style="box-shadow: 0px 1px 3px 0px black; border-radius:.8rem; padding:1rem;">
+                                <a><button>{{a.message_to}}</button></a>{{a.date}}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    {% if request.session.admin_email == a.message_to or request.session.admin_email == a.message_from %}
+                        {% if request.session.admin_email == a.message_to %}
+                            <div style="box-shadow: 0px 1px 3px 0px black; border-radius:.8rem; padding:1rem;">
+                                <a><button>{{a.message_from}}</button></a>{{a.date}}
+                            </div>
+                        {% else %}
+                            <div style="box-shadow: 0px 1px 3px 0px black; border-radius:.8rem; padding:1rem;">
+                                <a><button>{{a.message_to}}</button></a>{{a.date}}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div style="height: max-content; box-shadow: 0px 2px 5px 0px black; border-radius:1rem; padding: 1rem; margin:1rem;">
+            <h2>Contacts</h2>
+            
+        </div>
+    </div>
+{% endblock %}

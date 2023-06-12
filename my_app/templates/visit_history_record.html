@@ -1,0 +1,122 @@
+{% extends "visit_history.html" %}
+{% block visit_history_record %}
+{% if request.session.admin_email != None %}
+<div style="display: grid; grid-template-columns:300px auto;">
+    {% else %}
+    <div style="display: grid; grid-template-columns: auto;">
+        {% endif %}
+        {% if request.session.admin_email != None %}
+        <div style="padding: 1rem;background: rgba(255, 255, 255, 0.462);border-radius: 1rem;margin-right: 1rem;">
+
+            <h1>New Check Up Information</h1>
+            <form action="/save_current_checkup_rec" method="post">
+                {% csrf_token %}
+                {% for y in checkupform %}
+                {{y.label_tag}}<br>{{y}}<br>
+                {% endfor %}
+
+                {% for data in rec %}
+                <input name="id" value="{{data.id}}" hidden>
+                <input name="email" value="{{data.email}}" hidden>
+                {% endfor %}
+                <br><button style="width: 100%;">Save</button>
+            </form>
+        </div>
+        {% endif %}
+        <div style="padding: 1rem;background: rgba(255, 255, 255, 0.462);border-radius: 1rem;">
+            {% if request.session.admin_email != None %}
+            <h3>Record Information</h3>
+            <h3 style="color:red;">{{incorrectID}}</h3>
+            <form style="width: 100px;" action="{% url 'search_history' %}" method="post">
+                {% csrf_token %}
+                <div style="display: grid; grid-template-columns:auto">
+                    <label>ID:</label>
+                    {% for x in form %}
+                    {{x}}
+                    {% endfor %}
+                    <button style="width: max-content;" type="submit">search</button>
+                </div>
+            </form>
+            {% endif %}
+            <div style="display: grid;grid-template-rows: auto  auto;">
+                {% for data in rec %}
+                <a href="/reports/user-visit-history/{{data.id}}" target="_blank"><button>Generate User Report</button></a>
+                {% endfor %}
+                <div style="display: grid;grid-template-columns:400px  600px auto;">
+                    {% for data in rec %}
+                    <div>
+                        <div>First Name</div>
+                        <div>Middle Name</div>
+                        <div>Last Name</div>
+                        <div>Birthday</div>
+                        <div>Age</div>
+                        <div>Address</div>
+                        <div>Gender</div>
+                        <div>Year Level</div>
+                        <div>Department</div>
+                        <div>User type</div>
+                    </div>
+                    <div>
+                        <div>:{{data.firstname}}</div>
+                        <div>:{{data.middlename}}</div>
+                        <div>:{{data.lastname}}</div>
+                        <div>:{{data.birthday}}</div>
+                        <div>:{{data.age}}</div>
+                        <div>:{{data.address}}</div>
+                        <div>:{{data.gender}}</div>
+                        <div>:{{data.year_level}}</div>
+                        <div>:{{data.department}}</div>
+                        <div>:{{data.user_type}}</div>
+                    </div>
+                    <div>
+                        {% if default_pic == "false" %}
+                        {% for t in profile_pic %}
+                        <img style="height: 200px;width: 200px;border-radius: 2rem;box-shadow: 0px 2px 8px 0px blue;"
+                            src="{{t.profile_pic.url}}" />
+                        {% endfor %}
+                        {% else %}
+                        <div><img src="/static/assets/d.png"
+                                style="height: 200px;width: 200px;border-radius: 2rem;box-shadow: 0px 2px 8px 0px blue;" />
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div>
+                    <h3>Record History</h3>
+
+                    <table>
+                        <tr class="table-header">
+                            <td>Date Of Checkup</td>
+                            <td>Blood Pressure</td>
+                            <td>Pulse Rate</td>
+                            <td>Respiratory Rate</td>
+                            <td>Temperature</td>
+                            <td>Other Info</td>
+                            <td>Final Remarks After Checkup</td>
+                        </tr>
+                        {% for h in history %}
+                        <tr>
+                            <td>{{ h.checkup_date }}</td>
+                            <td>{{ h.blood_pressure }}</td>
+                            <td>{{ h.pulse_rate }}</td>
+                            <td>{{ h.respiratory_rate }}</td>
+                            <td>{{ h.temperature }}</td>
+                            <td>{{ h.other_info }}</td>
+                            <td>{{ h.remark_after_checkup }}</td>
+
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% if graph_file %}
+                    <div>
+                        <h3>Visit Graph</h3>
+                        <img src="{{ graph_file }}" alt="Visit Graph">
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

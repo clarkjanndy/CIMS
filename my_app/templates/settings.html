@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+<div style="display: grid;grid-template-columns: 500px auto;">
+    <div style="padding: 1rem;box-shadow: 0px 2px 3px 0px black;border-radius: 1rem;margin-left: 1rem;">
+        
+        {% for d in codes %}
+        <table>
+            <th>
+                <tr>
+                    <td>User Level</td>
+                    <td>Registration Codes</td>
+                </tr>
+            </th>
+            <tbody>
+                {% for c in codes %}
+                <tr>
+                    <td>Faculty</td>
+                    <td>{{c.faculty}}</td>
+
+                </tr>
+                <tr>
+                    <td>Staff</td>
+                    <td>{{c.staff}}</td>
+
+                </tr>
+                <tr>
+                    <td>NSTP Coordinator</td>
+                    <td>{{c.nstp_coordinator}}</td>
+
+                </tr>
+                <tr>
+                    <td>Admin</td>
+                    <td>{{c.admin}}</td>
+
+                </tr>
+                <tr>
+                    <td>ROTC Coordinator</td>
+                    <td>{{c.rotc_coordinator}}</td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+        
+    </div>
+    <div style="background-color:whitesmoke; padding: 1rem;box-shadow: 0px 2px 3px 0px black;border-radius: 1rem;width: 300px;margin-left: 1rem;">
+        {% block settings %}
+        <form action="{% url 'save_code' %}" method="post">
+            {% for c in form %}
+            {{ c.label_tag }}{{c}}
+            {% endfor %}
+            <button>Save Changes</button>
+        </form>
+       
+        <a href="">Change Codes</a>
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% load static %}
+<html>
+
+<head>
+
+    <title>
+        Clinic Information and  Management System
+    </title>
+
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>
+                <img src="{{dir}}static/assets/testlogo.png" width="150" style="display: inline;">
+            </td>
+            <td align="center" colspan="3">
+
+                <div style="display: inline;">
+                    <font size="6">Buenavista Community College</font><br>
+                    <font size="6">Clinic Information and  Management System</font><br><br>
+                    <font size="5">Report of Medicine Inventory</font><br>
+                    <font size="5">Date: {{date}}</font>
+                </div>
+
+            </td>
+
+            <td>
+            </td>
+        </tr>
+    </table>
+    <br>
+
+    <table style="border: 1px solid black; padding: 2px 2px">
+        <tr style="background-color: #4aba66; color: white">
+            <td>Item No</td>
+            <td>Name</td>
+            <td>Category</td>
+            <td>Unit</td>
+            <td>Quantity</td>
+            <td>Remaining</td>
+            <td>Expiration Date</td>
+        </tr>
+        {% if medicines %}
+        {% for medicine in medicines %}
+        <tr>
+            <td>{{medicine.serial}}</td>
+            <td>{{medicine.item_name}}</td>
+            <td>{{medicine.category}}</td>
+            <td>{{medicine.unit}}</td>
+            <td>{{medicine.quantity}}</td>
+            <td>{{medicine.remaining}}</td>
+            <td>{{medicine.expiration}}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="7" align="center">No Medicine as of present date.</td>
+        </tr>
+        {% endif %}
+    </table>
+
+    
+</body>
+
+
+</html>

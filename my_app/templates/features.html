@@ -1,0 +1,363 @@
+{% extends "layout.html" %}
+{% block content %}
+<div style="display:grid; grid-template-columns:auto;padding: 1rem;">
+    <div style=" background-color: rgba(245, 245, 245, 0.528);padding:1rem;border-radius:2rem">
+        {% block features_content %}
+        {% if request.session.admin_email != None %}
+        <h2>Features</h2>
+        <div style="display: grid;grid-template-columns: auto auto;">
+            <div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href='/admin/faculty_list'>
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/staff_faculty.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Administrators</text>
+                        <p>Check records for our beloved staff and faculty...</p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/admin/with_condition">
+                        <div style="display: flex; flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/with_med_condition.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">With Medical Condition</text>
+                        <p>Be aware of all users with medical condition , check here and find out...</p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="{% url 'physicaly_fit' %}">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/with_med_condition.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Physicaly Fit</text>
+                        <p>Find out users which is physicaly fit or with clear no medical records...</p>
+                    </div>
+                </div>
+
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/admin/users_list">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/list_of_records.png" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Students List</text>
+                        <p>Contains all student records and more...</p>
+
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/admin/rotc_qualified">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/rotc.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+
+                        <text class="f">Qualified for ROTC</text>
+                        <p>List of students qualified for Reserved Officers Training Corpse</p>
+                    </div>
+                </div>
+
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/admin/for_confirmation">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/forconfirmation.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+
+                        <text class="f">For Confirmation
+                            {% if count != "" %}
+                            <span style="padding: 5px; background-color: red; color: white; border-radius: 10px;">
+                                {{count}}</span>
+                            {% endif %}
+                        </text>
+                        <p>Track uploaded medical certificate and information of new users...</p>
+                    </div>
+                </div>               
+
+            </div>
+            <div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="{% url 'visit_history' %}">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/visit_history.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Admission Record</text>
+                        <p>Records of all patients health conditions,diagnosis,prescribed medicines, and date of visit
+                            in the clinic...</p>
+
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/admin/inventory">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/inventory.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Inventory</text>
+                        <!-- <a href="/admin/inventory">List</a>
+                            <a href="/admin/inventory/expired">Expired</a> -->
+                        <p>Controlls of all transaction of medicines, adding, pull outs and more...</p>
+
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="{% url 'medical_notes' %}">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/medical_notes.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Medical Notes</text>
+                        <p>Keep track student's latest condition anytime, anywhere...</p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/features/announcements">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/announcement.png" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Announcements</text>
+                        <p>Provide latest information about the clinic's current activities...</p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="{% url 'reports' %}">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/reports.png" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Reports</text>
+                        <p>Summary graphs of all reports including inventory, users, illness and more...</p>
+
+                    </div>
+                </div>
+                    <!-- <div style="display: grid;grid-template-columns: 200px auto;">
+                        <a href="{% url 'notifications' %}">
+                            <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                                <img style="height: 100px;width: 100px;" src="static/assets/bell.webp" />
+                            </div>
+                        </a>
+                        <div
+                            style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                            <text class="f">Notifications
+                                {% if notifs > 0 %}
+                                <span style="padding: 5px; background-color: red; color: white; border-radius: 10px;">
+                                    {{notifs}}</span>
+                                {% endif %}
+                            </text>
+                            <p>List of notifications about expired medicines</p>
+
+                        </div>
+                    </div> -->
+            </div>
+        </div>
+
+        {% else %}
+        {% if user_type == "staff" %}
+        <div style="display: grid;grid-template-columns: auto auto;">
+            <div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/admin/users_list">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/list_of_records.png" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Students List</text>
+                        <p>Contains all student records and more...</p>
+
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/admin/inventory">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/inventory.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Inventory</text>
+                        <!-- <a href="/admin/inventory">List</a>
+                                <a href="/admin/inventory/expired">Expired</a> -->
+                        <p>Controlls of all transaction of medicines, adding, pull outs and more...</p>
+
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/features/announcements">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/announcement.png" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Announcements</text>
+                        <p>Provide latest information about the clinic's current activities...</p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="{% url 'myhistory' %}">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/visit_history.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Clinic Record History</text>
+                        <p>View pevious heath condition diagnosis and prescribed medicines</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% elif user_type == 'nstp' %}
+        <div style="display: grid;grid-template-columns: auto auto;">
+            <div>
+                NSTP Administrator
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/qualified_rotc">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/rotc.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Eligible Enrollees for ROTC</text>
+                        <p>Monitors list of all freshmen eligible for ROTC and medical records...</p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/qualified_cwts">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/rotc.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Eligible Enrollees for CWTS</text>
+                        <p>Monitors list of all freshmen eligible for CWTS and medical records...</p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/features/announcements">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/announcement.png" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Announcements</text>
+                        <p>Provide latest information about the clinic's current activities...</p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="{% url 'myhistory' %}">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/visit_history.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Clinic Record History</text>
+                        <p>View pevious heath condition diagnosis and prescribed medicines</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% elif user_type == 'faculty' %}
+        <div style="display: grid;grid-template-columns: auto auto;">
+            <div>
+                Faculty
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/features/announcements">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/announcement.png" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Announcements</text>
+                        <p>Provide latest information about the clinic's current activities...</p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="{% url 'myhistory' %}">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/visit_history.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Clinic Record History</text>
+                        <p>View pevious heath condition diagnosis and prescribed medicines</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div style="display: grid;grid-template-columns: auto auto;">
+            <div>
+                Student
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/features/announcements">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/announcement.png" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Announcements</text>
+                        <p>Provide latest information about the clinic's current activities...</p>
+                    </div>
+                </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="{% url 'myhistory' %}">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/visit_history.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Visit History</text>
+                        <p>View pevious heath condition diagnosis and prescribed medicines</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}

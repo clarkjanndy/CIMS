@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block content %}
+{% load static %}
+    
+ 
+    {% block user_content %}
+    <div style="display: grid;grid-template-columns:500px auto;padding: 2rem;">
+        <div style="padding: 1rem;box-shadow: 0px 2px 8px 0px black;border-radius: 1rem;height: fit-content;background-color: rgba(245, 245, 245, 0.617);">
+            <h2>About BCC Clinic</h2>
+            <text>
+                Clinics have been popular with patients with minor ailments and also for certain specialties.
+                They provide easy access to healthcare without having to go to hospitals. 
+                For a visit with a dentist or an ophthalmologist, most people visit a doctor at their clinics than spend time waiting at a hospital.
+                Other than specialized clinics, general health clinics in remote locations play a huge role in providing healthcare services where access to hospitals may not be easy. 
+                Primary healthcare centers across the country conduct vaccination camps, and regular health check-ups in regions that may otherwise suffer from a lack of healthcare.
+            </text> 
+        </div>
+        <div style="display: grid;grid-template-columns: auto auto auto;">
+            <div>
+                <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                    <img style="height: 100px;width: 100px;" src="/static/assets/medical_notes.jpg"/>
+                </div>
+                <div style="display: flex;flex-direction: column;align-items: center;padding: 1rem;">
+                    <img style="height: 100px;width: 100px;" src="/static/assets/announcement.png"/>
+                </div>
+                <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                    <img style="height: 100px;width: 100px;" src="/static/assets/visit_history.jpg"/>
+                </div>
+            </div>
+            <div>
+                <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                    <img style="height: 100px;width: 100px;" src="/static/assets/inventory.jpg"/>
+                </div>
+                <div style="display: flex;flex-direction: column;align-items:center;padding: 1rem;">
+                    <img style="height: 100px;width: 100px;" src="/static/assets/list_of_records.png"/>
+                </div>
+                <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                    <img style="height: 100px;width: 100px;" src="/static/assets/reports.png"/>
+                </div>
+            </div>
+            <div>
+                <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                    <img style="height: 500px;width: 500px;border-radius: 3rem;" src="/static/assets/CIMSLOGO.jpg"/>
+                </div>
+            </div>
+           
+            
+        </div>
+    </div>
+    {% endblock %}
+{% endblock %}

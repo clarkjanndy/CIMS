@@ -1,0 +1,81 @@
+{% load static %}
+<html>
+
+<head>
+
+    <title>
+        Clinic Information and  Management System
+    </title>
+
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td>
+                <img src="{{dir}}static/assets/testlogo.png" width="150" style="display: inline;">
+            </td>
+            <td align="center" colspan="3">
+
+                <div style="display: inline;">
+                    <font size="6">Buenavista Community College</font><br>
+                    <font size="6">Clinic Information and  Management System</font><br><br>
+                    <font size="5">Report of Medicine Inventory</font><br>
+                    <font size="5">Date: {{date}}</font>
+                </div>
+
+            </td>
+
+            <td>
+            </td>
+        </tr>
+    </table>
+    <br>
+
+
+    Name:   <b>{{user.firstname}}  {{user.middlename}}  {{user.lastname}}</b><br>
+    Email:   <b>{{user.email}}</b><br>
+    Birthday:   <b>{{user.gender}}</b><br>
+    Age:    <b>{{user.age}}</b><br>
+    Address:    <b>{{user.address}}</b><br>
+    Gender:     <b>{{user.gender}}</b><br>
+    Year Level:     <b>{{user.year_level}}</b><br>
+    Department:     <b>{{user.department}}</b><br>
+    Medical Status: <b>{{user.firstname}}</b><br>
+    Medical Condition:  <b>{{user.medical_condition}}</b><br> 
+   
+
+    <table style="border: 1px solid black; padding: 2px 2px">
+        <tr style="background-color: #4aba66; color: white">
+            <td>Check Up Date</td>
+            <td>Blood Pressure</td>
+            <td>Pulse Rate</td>
+            <td>Respiratory Rate</td>
+            <td>Temperature</td>
+            <td>Other Info</td>
+            <td>Remark After Checkup</td>
+        </tr>
+        {% if visits %}
+        {% for visit in visits %}
+        <tr>
+            <td>{{visit.checkup_date}}</td>
+            <td>{{visit.blood_pressure}}</td>
+            <td>{{visit.pulse_rate}}</td>
+            <td>{{visit.respiratory_rate}}</td>
+            <td>{{visit.temperature}}</td>
+            <td>{{visit.other_info}}</td>
+            <td>{{visit.remark_after_checkup}}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="7" align="center">No checkups yet...</td>
+        </tr>
+        {% endif %}
+    </table>
+
+    
+</body>
+
+
+</html>

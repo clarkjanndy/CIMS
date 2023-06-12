@@ -1,0 +1,68 @@
+{% extends "features.html" %}
+{% block features_content %}
+<a href="{% url 'features' %}"><button>Back</button></a>
+        <h1>{{table_title}}</h1>
+
+        {% if list_of_users_only == "true" %}
+        <form>
+            <label>View By Year Level:</label>
+            <div style="width: 30%; margin-bottom: 10px;">
+                <select name="year_level" class="reg_input" required id="id_year_level" onchange="this.form.submit()">
+                <option selected></option>              
+                <option value="Freshmen" {% if selected_year_level == 'Freshmen' %}selected{% endif %}>Freshmen</option>              
+                <option value="Sophomore" {% if selected_year_level == 'Sophomore' %}selected{% endif %}>Sophomore</option>              
+                <option value="Junior" {% if selected_year_level == 'Junior' %}selected{% endif %}>Junior</option>              
+                <option value="Senior" {% if selected_year_level == 'Senior' %}selected{% endif %}>Senior</option>  
+              </select>
+            </div>
+        </form>
+        {% endif %}
+
+        {% if table_title == "List of all Students" and list_of_users_only == "true" %}
+            <a href="/admin/bulk-delete" style="float: right;"><button>Remove All Graduates</button></a>
+        {% endif %} 
+
+        <table>
+            <tr class="table-header">
+                <td>ID</td>
+                
+                {% if not table_title == "List of all Administrators" %}
+                <td>Student ID</td>
+                {% endif %}
+
+                <td>First Name</td>
+                <td>Middle Name</td>
+                <td>Last Name</td>
+                <td>Address</td>
+                {% if show == "With Medical Condition" %}
+                <td>Medical Condition</td>
+                {% endif %}
+                <td>Action</td>
+            </tr>
+            {% for x in users %}
+            <tr>
+                <td>{{ x.id }}</td>
+
+                {% if not table_title == "List of all Administrators" %}
+                <td>{{ x.student_id }}</td>
+                {% endif %}
+
+                <td>{{ x.firstname }}</td>
+                <td>{{ x.middlename }}</td>
+                <td>{{ x.lastname }}</td>
+                <td>{{ x.address }}</td>
+                {% if show == "With Medical Condition" %}
+                <td>{{ x.medical_condition }}</td>
+                {% endif %}
+                <td>
+                    <a href="{% url 'check_user' x.id %}" type="submit" class="btn"><button>Show Record</button></a>
+                    <a href="{% url 'delete_user' x.id %}" type="submit" class="confirmbtn"><button>Delete</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </table>
+            {% if empty_rec == "" %}
+                <div style="padding:1rem; display:flex;flex-wrap:wrap;flex-direction:column;align-content:center; background-color:rgba(255, 0, 0, 0.353);">No Record Found</div>
+            {% endif %}
+   
+{% endblock %}

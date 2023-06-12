@@ -1,0 +1,66 @@
+{% extends "user_home_page.html" %}
+{% block user_content %}
+
+
+
+      
+        {% for x in user %}
+        <h2 style="display:flex;flex-direction: column;align-items: center;background-color: rgba(255, 255, 255, 0.595);padding: 2rem;">
+            {{x.firstname}}&nbsp;{{x.middlename}}&nbsp;{{x.lastname}}&nbsp;Record
+        </h2>
+        <div style="display:flex;flex-direction:column;align-items: center;background-color: rgba(255, 255, 255, 0.595);padding: .5rem;margin-top: 1rem;">
+            <div style="display: grid;grid-template-columns:auto auto auto;padding: .5rem;">
+            <a href="{% url 'user_home_page' %}"  type="submit" class="editbtn"><button>Cancel</button></a>
+            </div>
+        </div> 
+        <div style="display:grid;grid-template-columns: auto auto;padding: 2rem; border-radius: 1rem;background-color: rgba(255, 255, 255, 0.595);margin-left: 3rem;margin-right: 3rem;margin-top: .5rem;">
+            <div style="display:flex;flex-wrap: wrap;flex-direction:column; align-items:flex-end;padding: 2rem;background-color:white;border-radius: 1rem;">
+                <!-- <form action="{%url 'save_edit_user' x.pk%}" method="post">
+                    {%for y in form%}
+                    <label class="check_user_label">{{y.label_tag}}</label><h3 class="edit_user_inputs">{{y}}</h3><br>
+                    {%endfor%}
+                    <button>Save</button>
+                </form>  -->
+                {% for b in prof_pic %}
+                    <img style="border-radius: 10rem;box-shadow: 0px 5px 8px 4px black;  height: 300px; width:300px;" src="{{b.profile_pic.url}}">
+                {% endfor %}
+                <div>
+                    <form action="upload_prof_pic/" enctype="multipart/form-data"  method="post">{% csrf_token %}
+                        {% for v in profilePicForm %}
+                        <div class="upload_pic">
+                        {{v}}
+                        </div>
+                        {% endfor %}
+                        <button type="submit">Upload</button>
+                    </form>
+                  </div>
+                
+                <label class="check_user_label">ID</label><h3>{{ x.id }}</h3><br>
+                <label class="check_user_label">First Name</label><h3>{{ x.firstname }}</h3><br>
+                <label class="check_user_label">Middle Name</label><h3>{{ x.middlename }}</h3><br>
+                <label class="check_user_label">Last Name</label><h3>{{ x.lastname }}</h3><br>
+                <label class="check_user_label">Birthday</label><h3>{{ x.birthday }}</h3><br>
+                <label class="check_user_label">Age</label><h3>{{ x.age }}</h3><br>
+                <label class="check_user_label">Address</label><h3>{{ x.address }}</h3><br>
+                <label class="check_user_label">Email</label><h3>{{ x.email }}</h3><br>
+                <label class="check_user_label">Gender</label><h3>{{ x.gender }}</h3><br>
+                <label class="check_user_label">Year Level</label><h3>{{ x.year_level}}</h3><br>
+                <label class="check_user_label">Department</label><h3>{{ x.department }}</h3><br>
+                {% if x.user_type != "faculty" %}
+                <label class="check_user_label">Medical Status</label><h3>{{ x.medical_status}}</h3><br>
+                <label class="check_user_label">Medical Condition</label><h3>{{ x.medical_condition}}</h3><br>
+                {% endif %}
+                
+            </div>
+            <div style="display:flex;flex-wrap: wrap;flex-direction:column; align-items: center;padding: 2rem;">
+                <label class="check_user_label">Medical Certificate</label><br>
+                <h5>See Medical Certificate For Confirmation Reference</h5>
+                <img src="{{x.medcert.url }}" style="width:50rem; height: 70rem;"><br>
+            </div>
+        </div>
+              
+        
+        {% endfor %}
+  
+    
+{% endblock %}

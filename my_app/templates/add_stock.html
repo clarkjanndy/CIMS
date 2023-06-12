@@ -1,0 +1,54 @@
+{% extends "admin_home_page.html" %}
+{% block admin_content %}
+<div style="display:grid; grid-template-columns: 200px auto; padding: .5rem; margin-top: .5rem;">
+    <div spellcheck="width:300px" style="padding: .5rem;border-right:solid .005rem;border-color: beige;">
+        {% for x in item %}
+        <form action="{%url 'save_added_stock' x.pk%}" method="post">{% csrf_token %}
+            <h3>Add Stock</h3>
+            {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.errors }}
+                {{ field.label_tag }}<br> {{ field }}
+                {% if field.help_text %}
+                <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <br><button type="submit">Save</button>
+        </form>
+        {% endfor %}
+    </div>
+    <div style="padding: .5rem;">
+        <table>
+            <tr class="table-header">
+                <td>Item Number</td>
+                <td>Name</td>
+                <td>Category</td>
+                <td>Date Purchased</td>
+                <td>Selling Price</td>
+                <td>Unit</td>
+                <td>Quantity</td>
+                <td>Remaining</td>
+                <td>Expitation Date</td>
+                <td>Image</td>
+            </tr>
+            <tr>{% for x in item %}
+                <td>{{x.serial}}</td>
+                <td>{{x.item_name}}</td>
+                <td>{{x.category}}</td>
+                <td>{{x.purchase_date}}</td>
+                <td>{{x.selling_price}}</td>
+                <td>{{x.unit}}</td>
+                <td>{{x.quantity}}</td>
+                <td>{{x.remaining}}</td>
+                <td>{{x.expiration}}</td>
+                <td><img src="{{ x.item_image.url }}" style="height:100px; width:100px;"></td>
+            </tr> {% endfor %}
+        </table>
+       
+    </div>
+</div>
+{% endblock %}
+
+
+ 

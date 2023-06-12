@@ -1,0 +1,10 @@
+<div>
+    <form action="upload_prof_pic/" enctype="multipart/form-data"  method="post">{% csrf_token %}
+        {% for v in profilePicForm %}
+        <div class="upload_pic">
+        {{v}}
+        </div>
+        {% endfor %}
+        <button type="submit">Upload</button>
+    </form>
+  </div>

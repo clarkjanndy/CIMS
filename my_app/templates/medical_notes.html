@@ -1,0 +1,45 @@
+{% extends "features.html" %}
+{% block features_content %}
+<a href="{% url 'features' %}"><button>Back</button></a>
+<div style="padding: 3rem;">
+        <h1>Medical Notes</h1>
+        <div>
+            <table>
+                <tr class="table-header">
+                    <td>First Name</td>
+                    <td>Middle Name</td>
+                    <td>Last Name</td>
+                    <td>Date Of Checkup</td>
+                    <td>Blood Pressure</td>
+                    <td>Pulse Rate</td>
+                    <td>Respiratory Rate</td>
+                    <td>Temperature</td>
+                    <td>Other Info</td>
+                    <td>Final Remarks After Checkup</td>
+                </tr>
+                {% for h in history %}
+                <tr>
+                    {% for u in users %}
+                        {% if u.id == h.rec_id %}
+                            <td>{{ u.firstname }}</td>
+                            <td>{{ u.middlename }}</td>
+                            <td>{{ u.lastname }}</td>
+                        {% endif %}
+                    {% endfor %}
+                    <td>{{ data.firstname }}</td>
+                    <td>{{ data.middlename }}</td>
+                    <td>{{ data.lastname }}</td>
+                    <td>{{ h.checkup_date }}</td>
+                    <td>{{ h.blood_pressure  }}</td>
+                    <td>{{ h.pulse_rate }}</td>
+                    <td>{{ h.respiratory_rate }}</td>
+                    <td>{{ h.temperature }}</td>
+                    <td>{{ h.other_info }}</td>
+                    <td>{{ h.remark_after_checkup }}</td>
+                   
+                </tr>
+                {% endfor %}
+                </table>
+        </div>        
+</div>
+{% endblock %}

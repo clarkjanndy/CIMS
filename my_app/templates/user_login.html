@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="form-flex-container">
+        <div class="form-box">
+            <h1>User Login</h1>
+            {% for message in messages %}
+            <h3 style="color:red;">!!!{{message}}</h3>
+            {% endfor %}
+            <form action="submitlogin/" method="post">{% csrf_token %}
+                {%for field in form%}
+                <div class="fieldWrapper">
+                    {{ field.errors }}
+                    {{field.label_tag}}<br>{{field}}
+                </div>
+                {%endfor%}
+                <button type="submit">Login</button><br>
+                Don't have an account?<br>
+                Choose Registration link below:
+                <div><a href="/register">Students</a><br></div>
+                <div><a href="{%url 'faculty_reg'%}">Faculty</a></div>
+                <div><a href="{%url 'nstp_reg'%}">NSTP Coordinator</a></div>
+                <!-- <div><a href="{%url 'staff_reg'%}">Admin Staff</a></div> -->
+               
+                
+            </form> 
+            <a href="/privacy-policy">Read About Our Privacy Policy</a>    
+        </div>
+    </div>  
+</div> 
+
+{% endblock %}

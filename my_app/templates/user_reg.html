@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+    <div>
+        <div class="form-flex-container" style="padding-left:200px;padding-right:200px;padding-bottom: 20px;">
+            <div class="" style="padding: 10px; border-radius: 10px;width:60%">
+                <h1>{{reg_title}}</h1>
+                <div style="margin-bottom: 10px;">
+                <p>Registration Notes:</p>
+                    <li>Type <strong>"N/A"</strong> for Not Applicable Fields</li>
+                    <li>For the medical condition field, refer to the result of medical certificate you uploaded.</li>
+                </div>
+
+                {% for message in messages %}
+                <h3 style="color:red;">{{message}}</h3>
+                {% endfor %}
+                <form action="{{url}}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="column">
+                            {{form.student_id.label_tag}}{{form.student_id}}
+                            {{form.firstname.label_tag}}{{form.firstname}}
+                            {{form.middlename.label_tag}}{{form.middlename}}
+                            {{form.lastname.label_tag}}{{form.lastname}}
+                            {{form.birthday.label_tag}}{{form.birthday}}
+                            {{form.age.label_tag}}{{form.age}}
+                            {{form.address.label_tag}}{{form.address}}
+                            {{form.gender.label_tag}}{{form.gender}}
+                            
+                        </div>
+                        <div class="column">
+                          
+                            {% if usertype == "student" %}
+                            {{form.year_level.label_tag}}{{form.year_level}}
+                            {% endif %}
+                            {{form.department.label_tag}}{{form.department}}
+                            {{form.email.label_tag}}{{form.email}}
+                            {{form.password.label_tag}}{{form.password}}
+                            {{form.medcert.label_tag}}{{form.medcert}}
+                            {{form.medical_status.label_tag}}{{form.medical_status}}
+                            {{form.medical_condition.label_tag}}{{form.medical_condition}}
+
+                            {% if not usertype == "student" %}
+                            <label>Registration Code</label>
+                            <input name="code" required>
+                            {% endif %}
+
+                            <div style="margin-top: 10px;">
+                                <button type="submit">Register</button>&nbsp;Already have an account? <a href="/login">Login</a>
+                            </div>
+                            
+                            <!-- {% for field in form %}
+                            <div class="fieldWrapper">
+                                {{ field.errors }}
+                                {{field.label_tag}}<br>{{field}}
+                            </div>
+                            {% endfor %} -->
+                    </div>
+                    
+
+                </form>
+        
+            </div>
+        </div>
+       
+    </div>
+</div>
+<style>
+    .container{
+        display:grid;
+    }
+    label{
+        margin-bottom:10px;
+    }
+    .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Adjust the column sizes as per your needs */
+    gap: 20px; /* Adjust the gap between columns */
+}
+</style>
+
+{% endblock %}

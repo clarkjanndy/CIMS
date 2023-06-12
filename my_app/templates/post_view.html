@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+       
+        {% block content %}
+        {% for x in post %}
+        <div class="home_rapperView">
+            <div class="posts_wrapperView">
+               
+               <div class="postView">
+                    <div>
+                        <!-- {% for t in profile_pic %}
+                        <img style="height:40px;width:40px;border-radius: 1.4rem;box-shadow: 5px 0px 6px 0px rgba(16, 18, 17, 0.9);" src="{{ t.profile_pic.url }}"/>
+                        {% endfor %}{{x.posted_by}}<button>View post</button> -->
+                        {% for pp in user_post_pic %}
+                            {% if x.posted_by == pp.prof_pic_of %}
+                                <img style="height:40px;width:40px;border-radius: 1.4rem;box-shadow: 5px 0px 6px 0px rgba(16, 18, 17, 0.9);" src="{{ pp.profile_pic.url }}"/>
+                            {% endif %}
+                        {% endfor %}
+                        {% for t in admin_post_pic %}
+                            {% if x.posted_by == t.email %}
+                                <img style="height:40px;width:40px;border-radius: 1.4rem;box-shadow: 5px 0px 6px 0px rgba(16, 18, 17, 0.9);" src="{{ t.profile_pic.url }}"/>
+                            {% endif %}
+                        {% endfor %}
+                        {{x.posted_by}}
+                    </div>
+                    {%for v in postImage%}
+                        {% if x.id == v.post_id %}
+                        <img class="post_imagesView" src="{{v.post_pic.url}}">
+                        {% endif %}
+                    {%endfor%}
+                    <div  style="margin-left:2rem;">
+                    <pre>{{x.content}}</pre>
+                    {{x.date_posted}}
+                    </div>
+                    <div style="display:flex; flex-wrap: wrap;column-gap: 10px; flex-direction:row-reverse;">
+                        
+                        <div><a href="{% url 'announcements' %}"><button class="btnBack"></button></a></div>
+                       
+                    </div>
+               </div>
+            
+               
+            </div>
+            <div style="display:grid; grid-template-rows:auto 200px;background-color: rgba(245, 245, 245, 0.577);padding: 1rem;border-radius: 1rem;">
+                <div style="margin-left:4px;padding:.5rem;max-height: 500px;overflow: scroll;">
+                    <h3>Comments</h3>
+                    {% for i in com %}
+                    <div>
+                        {{i.commented_by}}
+                    </div>
+                    <div style="margin-left: 1rem;">
+                        <pre><text>{{i.comment}}</text></pre>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div style="padding: 1rem;border-radius: 1rem;box-shadow: 0px 2px 8px 0px green;">
+                    {% for d in form %}
+                    <form action="/comment/{{ x.pk }}" method="post">
+                        {% csrf_token %}
+                        <p>Write your {{d.label_tag}}</p>{{d}}
+                        <button>Comment</button>
+                    </form>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endblock %}
+
+
+ 

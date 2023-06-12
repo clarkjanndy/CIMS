@@ -1,0 +1,36 @@
+{% extends "features.html" %}
+{% block features_content %}
+        <h2>Medicine Inquiry</h2>
+        <table style="margin-top:1rem ;">
+            <tr class="table-header">
+                <td>Item Number</td>
+                <td>Name</td>
+                <td>Category</td>
+                <td>Date Purchased</td>
+                <td>Selling Price</td>
+                <td>Unit</td>
+                <td>Quantity</td>
+                <td>Remaining</td>
+                <td>Expitation Date</td>
+                <td>Image</td>
+            </tr>
+            <tr>{% for x in items %}
+                <td>{{x.serial}}</td>
+                <td>{{x.item_name}}</td>
+                <td>{{x.category}}</td>
+                <td>{{x.purchase_date}}</td>
+                <td>{{x.selling_price}}</td>
+                <td>{{x.unit}}</td>
+                <td>{{x.quantity}}</td>
+                <td>{{x.remaining}}</td>
+                <td>{{x.expiration}}</td>
+                <td><img src="{{ x.item_image.url }}" style="height:100px; width:100px;"></td>
+                
+            </tr> {% endfor %}
+        </table>
+        {% if empty_rec == "" %}
+            <div style="padding:1rem; display:flex;flex-wrap:wrap;flex-direction:column;align-content:center; background-color:rgba(255, 0, 0, 0.353);">No Record Found</div>
+        {% endif %}  
+       
+   
+{% endblock %}

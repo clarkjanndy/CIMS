@@ -1,0 +1,31 @@
+{% extends "features.html" %}
+{% block features_content %}
+<a href="{% url 'features' %}"><button>Back</button></a>
+
+<h1>Notifications </h1>
+
+
+<table>
+    
+    {% if notifs %}
+    <tr class="table-header">
+        <td align="left">Expired Medicine</td>
+        <td align="left">Time</td>
+        <td align="left">---</td>
+    </tr>
+   
+        {% for x in notifs %}
+        <tr align="left">
+            <td>Medicine {{x.medicine.item_name}} from the category {{x.medicine.category}} had expired on {{x.datetime|date:"F d, Y"}}. </td>
+            <td>{{x.datetime|timesince}} ago</td>
+            <td><a href="/view-notif/{{x.id}}"><button>Delete this Medicine</button></a></td>
+        </tr>
+        {% endfor %}
+    {% else %}
+    <div
+        style="padding:1rem; display:flex;flex-wrap:wrap;flex-direction:column;align-content:center; background-color:rgba(255, 0, 0, 0.353);">
+        No Record Found</div>
+
+    {% endif %}
+</table>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="form-flex-container">
+        <div class="form-box">
+            
+            <form action="submitlogin/" method="post">{% csrf_token %}
+                <h1>Admin Login</h1>
+                {% for message in messages %}
+                <h3 style="color:red;">!!!{{message}}</h3>
+                {% endfor %}
+                {%for field in form%}
+                <div class="fieldWrapper">
+                    {{ field.errors }}
+                    {{field.label_tag}}<br>{{field}}
+                </div>
+                {%endfor%}
+                <button type="submit">Login</button><br>Don't have an account?&nbsp; <a href="/admin/register">click Here to Register</a>
+                
+                
+                
+            </form>
+            <a href="/privacy-policy">Read About Our Privacy Policy</a>    
+        </div>
+    </div> 
+</div>   
+{% endblock %}

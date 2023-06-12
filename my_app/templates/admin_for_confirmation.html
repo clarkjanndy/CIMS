@@ -1,0 +1,45 @@
+{% extends "features.html" %}
+{% block features_content %}
+<a href="{% url 'features' %}"><button>Back</button></a>
+    <h1>For Confirmation</h1>
+    <table>
+        <tr class="table-header">
+            <td>ID</td>
+            <td>First Name</td>
+            <td>Middle Name</td>
+            <td>Last Name</td>
+            <td>Birth Day</td>
+            <td>Age</td>
+            <td>Address</td>
+            <td>Gender</td>
+            <td>Department</td>
+            <td>Email</td>
+            <td>Medical Status</td>
+            <td>Date Added</td>
+            <td>Actions</td>
+        </tr>
+        {% for x in users %}
+        <tr>
+        <td>{{ x.id }}</td>
+        <td>{{ x.firstname }}</td>
+        <td>{{ x.middlename }}</td>
+        <td>{{ x.lastname }}</td>
+        <td>{{ x.birthday }}</td>
+        <td>{{ x.age }}</td>
+        <td>{{ x.address }}</td>
+        <td>{{ x.gender }}</td>
+        <td>{{ x.department }}</td>
+        <td>{{ x.email }}</td>
+        <td>{{ x.medical_status }}</td>
+        <td>{{ x.date_added }}</td>
+        <td>
+            <a href="{% url 'check_user' x.pk %}" type="submit" class="checkbtn"><button>Show</button></a>
+        </td>
+        </tr>
+        {% endfor %}
+        </table>
+        {% if empty_rec == "" %}
+            <div style="padding:1rem; display:flex;flex-wrap:wrap;flex-direction:column;align-content:center; background-color:rgba(255, 0, 0, 0.353);">No Record Found</div>
+        {% endif %}
+    
+{% endblock %}

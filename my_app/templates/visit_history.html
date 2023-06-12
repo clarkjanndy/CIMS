@@ -1,0 +1,42 @@
+{% extends "features.html" %}
+{% block features_content %}
+<a href="{% url 'features' %}"><button>Back</button></a>
+<h1 >Admission Records</h1>
+{% block visit_history_record %}
+<div style="padding: 1rem;">
+    {% for message in messages %}
+    <h3 style="color:red;">{{message}}</h3>
+    {% endfor %}
+    <form style="width: 100px;" action="{% url 'search_history' %}" method="post">
+        {% csrf_token %}
+        <div style="display: grid; grid-template-columns:auto">
+            <label>ID:</label>
+            {% for x in form %}
+            {{x}}
+            {% endfor %}
+            <button style="width: max-content;" type="submit">Search</button>
+        </div>  
+    </form>
+</div>
+<div>
+    <form>
+        <table>
+            <tr class="table-header">
+                <td>ID</td>
+                <td>email</td>
+            </tr>
+            {% for l in list %}
+            {% for r in rec %}
+            <tr>
+                <td>{{ l.rec_id }}</td>
+                {% if r.id == l.rec_id %}
+                <td>{{ r.firstname }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </table>
+    </form>
+</div>
+{% endblock %}
+{% endblock %}
