@@ -5,6 +5,7 @@ migrations/
 changes.md
 .env
 
+media/
 
 db.sqlite3
 
