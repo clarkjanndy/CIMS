@@ -804,9 +804,23 @@ def visit_history(request):
     form=SearchForm(request.POST)
     template=loader.get_template('visit_history.html')
     messages.error(request,'Please search record to display...')
-    list=CheckUpRecords.objects.all()
-    rec=Users.objects.all()
-    return HttpResponse(template.render({'form':form,'list':list,'rec':rec},request))
+    history=CheckUpRecords.objects.all()
+    
+    actual_history = []
+    for h in history:
+        users = Users.objects.filter(id = h.rec_id) 
+        if users.exists(): 
+           if users.exists():
+            h.name = f"{users.first().firstname} {users.first().middlename} {users.first().lastname}"
+            h.email = users.first().email
+        else:
+            h.name = 'Unknown User'
+            h.email = "Uknown Email"
+          
+            
+        actual_history.append(h)
+    
+    return HttpResponse(template.render({'form':form,'history':actual_history},request))
 
 def myhistory(request):
     rec=Users.objects.all().filter(email=request.session.get('email'))
@@ -941,8 +955,7 @@ def save_current_checkup_rec(request):
 def medical_notes(request):
     template=loader.get_template('medical_notes.html')
     history=CheckUpRecords.objects.all()
-    users=Users.objects.all()
-    
+        
     actual_history = []
     for h in history:
         users = Users.objects.filter(id = h.rec_id)  
@@ -956,7 +969,7 @@ def medical_notes(request):
             h.lastname = 'Unknown User'
         actual_history.append(h)
             
-    return HttpResponse(template.render({'history':actual_history,'users':users},request))
+    return HttpResponse(template.render({'history':actual_history},request))
 
 def user_home_page(request):
     email=request.session.get('email',default="")

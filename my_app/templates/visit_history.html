@@ -22,18 +22,20 @@
     <form>
         <table>
             <tr class="table-header">
-                <td>ID</td>
-                <td>email</td>
+                <td>User ID</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Date</td>
+                <td>Findings</td>
             </tr>
-            {% for l in list %}
-            {% for r in rec %}
+            {% for h in history %}
             <tr>
-                <td>{{ l.rec_id }}</td>
-                {% if r.id == l.rec_id %}
-                <td>{{ r.firstname }}</td>
-                {% endif %}
+                <td>{{ h.rec_id }}</td>
+                <td>{{ h.name }}</td>
+                <td>{{ h.email }}</td>
+                <td>{{ h.checkup_date }}</td>
+                <td>{{ h.remark_after_checkup }}</td>
             </tr>
-            {% endfor %}
             {% endfor %}
         </table>
     </form>
