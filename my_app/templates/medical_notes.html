@@ -19,16 +19,9 @@
                 </tr>
                 {% for h in history %}
                 <tr>
-                    {% for u in users %}
-                        {% if u.id == h.rec_id %}
-                            <td>{{ u.firstname }}</td>
-                            <td>{{ u.middlename }}</td>
-                            <td>{{ u.lastname }}</td>
-                        {% endif %}
-                    {% endfor %}
-                    <td>{{ data.firstname }}</td>
-                    <td>{{ data.middlename }}</td>
-                    <td>{{ data.lastname }}</td>
+                    <td>{{ h.firstname }}</td>
+                    <td>{{ h.middlename }}</td>
+                    <td>{{ h.lastname }}</td>
                     <td>{{ h.checkup_date }}</td>
                     <td>{{ h.blood_pressure  }}</td>
                     <td>{{ h.pulse_rate }}</td>

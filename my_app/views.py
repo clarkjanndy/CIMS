@@ -942,7 +942,21 @@ def medical_notes(request):
     template=loader.get_template('medical_notes.html')
     history=CheckUpRecords.objects.all()
     users=Users.objects.all()
-    return HttpResponse(template.render({'history':history,'users':users},request))
+    
+    actual_history = []
+    for h in history:
+        users = Users.objects.filter(id = h.rec_id)  
+        if users.exists():
+            h.firstname = users.first().firstname
+            h.middlename = users.first().middlename
+            h.lastname = users.first().lastname
+        else:
+            h.firstname = 'Unknown User'
+            h.middlename = 'Unknown User'
+            h.lastname = 'Unknown User'
+        actual_history.append(h)
+            
+    return HttpResponse(template.render({'history':actual_history,'users':users},request))
 
 def user_home_page(request):
     email=request.session.get('email',default="")
