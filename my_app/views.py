@@ -1002,14 +1002,14 @@ def reports(request):
     qs = Editors.objects.all()
     graph_file = generate_visit_graph()
     second_graph_data = generate_user_graph()  # Replace with your actual data for the second graph
-    dispensing_grap = generate_dispensing_graph()
+    dispensing_graph = generate_dispensing_graph()
     purchase_graph = generate_purchase_graph()
     context = {
         'qs': qs,
-        'graph_file': 'data:image/png;base64,' + graph_file,  # Prepend the necessary prefix to the first graph file
-        'second_graph_data': 'data:image/png;base64,' + second_graph_data,
-        'dispensing_grap': 'data:image/png;base64,' + dispensing_grap,
-        'purchase_graph': 'data:image/png;base64,' + purchase_graph
+        'graph_file': 'data:image/png;base64,' + str(graph_file),  # Prepend the necessary prefix to the first graph file
+        'second_graph_data': 'data:image/png;base64,' + str(second_graph_data),
+        'dispensing_grap': 'data:image/png;base64,' + str(dispensing_graph),
+        'purchase_graph': 'data:image/png;base64,' + str(purchase_graph)
     }
 
     return render(request, 'reports.html', context)
