@@ -22,6 +22,17 @@ clear: both;">
             <form action="/admin/inventory/save" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h3>Add Item</h3>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'warning' %}
+                            <div style="color: red;">{{ message }}</div>
+                        {% elif message.tags == 'success' %}
+                            <div style="color: green;">{{ message }}</div>
+                        {% endif %} 
+                    {% endfor %}
+                 {% endif %}
+
                 {% for field in form %}
                 <div class="fieldWrapper">
                     {{ field.errors }}
@@ -64,7 +75,9 @@ clear: both;">
                 <div>
                     <table>
                         {% for message in messages %}
-                        <h3 style="color:red;">!!!{{message}}</h3>
+                            {% if message.tags == 'error' %}
+                                <h3 style="color:red;">!!!{{message}}</h3>
+                            {% endif %}
                         {% endfor %}
                        <tr class="table-header">
                             <td>Student Name</td>

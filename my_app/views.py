@@ -22,6 +22,7 @@ from matplotlib.lines import Line2D
 from django.db.models import Sum
 from django.db.models.functions import ExtractMonth, ExtractYear
 from collections import defaultdict
+from django.contrib import messages
 # generating pdf file
 def pdftest(request):
     d=Search.objects.all().filter(id=1)
@@ -524,7 +525,6 @@ def admin_inventory(request):
     all_orders = Order.objects.filter(order_status='')  # Filter orders with order_status = 'A'
 
     form = InventoryForm()
-    form.fields['category'].choices = [(x.name, x.name) for x in Category.objects.all().order_by('name')]
 
     order = OrderForm()
     template = loader.get_template('admin_inventory.html')
@@ -562,11 +562,18 @@ def save_item(request):
 
     if form.is_valid():
         form.save()
-        for x in a:
-            b=x.remaining+int(request.POST['quantity'])
-            Inventory.objects.filter(serial=request.POST['serial']).update(remaining=b)        
+        # for x in a:
+        #     b=x.remaining+int(request.POST['quantity'])
+        #     Inventory.objects.filter(serial=request.POST['serial']).update(remaining=b)     
+        messages.success(request, 'Item successfully added.')   
         return HttpResponseRedirect(reverse('admin_inventory'))
     else:
+        if form.errors.get('serial'):
+             messages.warning(request, 'Item must be unique')
+
+        if form.errors.get('expiration'):
+            messages.warning(request, 'Expiration date cannot be in the past.')
+            
         return HttpResponseRedirect(reverse('admin_inventory'))
 
 def add_stock(request,pk):
