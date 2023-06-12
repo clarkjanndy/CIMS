@@ -261,8 +261,8 @@ def edit_user(request,pk):
         return HttpResponse(template.render({'form':form,'user':user,'date':current_date,'count':new_apply_count},request))
 
 def save_edit_user(request,pk):
-    Users.objects.filter(id=pk).update(firstname=request.POST['firstname'],middlename=request.POST['middlename'],lastname=request.POST['lastname'],birthday=request.POST['birthday'],age=request.POST['age'],address=request.POST['address'],gender=request.POST['gender'],department=request.POST['department'],email=request.POST['email'],medical_status=request.POST['medical_status'])
-    return HttpResponseRedirect(reverse('admin_users_list'))
+    Users.objects.filter(id=pk).update(medical_status=request.POST['medical_status'], medical_condition=request.POST['medical_condition'])
+    return HttpResponseRedirect(f'/admin/check_user/{pk}')
 
 def confirm_user(request,pk):
     # user = Users(status="confirmed")
@@ -424,15 +424,17 @@ def faculty_addRecord(request):
     form = FacultyForm(request.POST,request.FILES) 
     # if request.POST['code'] == code:
     if form.is_valid() and request.POST['code'] == 'BCC-FACULTY':
-        check_email=Users.objects.all().filter(email=request.POST['email'])
-        if check_email:
-            messages.error(request,'!!!Email address already taken')
+        check_email=Users.objects.filter(email=request.POST['email'])
+        if check_email.exists():
+            messages.error(request,'Email address already taken!')
             return HttpResponseRedirect(reverse('faculty_reg'))
         else:
+            
             form.save()
             Users.objects.filter(email=request.POST['email']).update(user_type="faculty",status="confirmed",list_filter="administrators")
             return HttpResponseRedirect(reverse('user_login'))
     else:
+        print(form.errors)
         return HttpResponseRedirect(reverse('faculty_reg')) 
     # else:
     #     messages.error(request,"!!!Error Faculty Code, you're not member of the faculty ")
@@ -454,6 +456,8 @@ def nstp_addRecord(request):
             Users.objects.filter(email=request.POST['email']).update(user_type="nstp",status="confirmed",list_filter="administrators")
             return HttpResponseRedirect(reverse('user_login'))
     else:
+        
+        print(form.errors)
         return HttpResponseRedirect(reverse('nstp_reg')) 
     # else:
     #     messages.error(request,"!!!Error Code, you're not an NSTP Coordinator ")

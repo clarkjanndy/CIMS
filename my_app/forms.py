@@ -32,7 +32,7 @@ class UsersForm(forms.ModelForm):
 class UsersV2Form(forms.ModelForm):
     class Meta:
         model = Users
-        fields = ('firstname','middlename','lastname','birthday','age','address','gender','year_level','department','email','password','medcert','medical_status','medical_condition')
+        fields = ('firstname','middlename','lastname','birthday','age','address','gender','year_level','department','email','password')
         widgets = {'password':forms.PasswordInput(),'birthday':forms.DateInput(attrs={'type':'date'}),'gender':forms.Select(attrs={'class':'reg_input'}),'medical_status':forms.Select(attrs={'class':'reg_input'}),'year_level':forms.Select(attrs={'class':'reg_input'}),'department':forms.Select(attrs={'class':'reg_input'})}
     
   
