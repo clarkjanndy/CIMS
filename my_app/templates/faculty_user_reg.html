@@ -4,7 +4,7 @@
 <div class="container">
     <div>
         <div class="form-flex-container" style="padding: 50px 200px;">
-            <div class="" style="padding: 10px; border-radius: 10px;width:60%">
+            <div class="" style="padding: 20px; border-radius: 10px;width:90%; background-color: white;">
                 <h1>{{reg_title}}</h1>
                 <div style="margin-bottom: 10px;">
                     <p>Registration Notes:</p>
@@ -19,39 +19,32 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="column">
-                            {{form.student_id.label_tag}}{{form.student_id}}
                             {{form.firstname.label_tag}}{{form.firstname}}
-                            {{form.middlename.label_tag}}{{form.middlename}}
-                            {{form.lastname.label_tag}}{{form.lastname}}
-                            {{form.birthday.label_tag}}{{form.birthday}}
                             {{form.age.label_tag}}{{form.age}}
-                            {{form.address.label_tag}}{{form.address}}
-                           {{form.gender.label_tag}}{{form.gender}}
+                            {{form.email.label_tag}}{{form.email}}
                             
                         </div>
                         <div class="column">
-                            {% if usertype == "Faculty" %}
-                            {{form.year_level.label_tag}}{{form.year_level}}
-                            {% endif %}
-                            {{form.department.label_tag}}{{form.department}}
-                            {{form.email.label_tag}}{{form.email}}
-                            {{form.password.label_tag}}{{form.password}}
-
+                            {{form.middlename.label_tag}}{{form.middlename}}
+                            {{form.address.label_tag}}{{form.address}}
+                            {{form.password.label_tag}}{{form.password}}                            
+                        </div>
+                        <div class="column">
+                            {{form.lastname.label_tag}}{{form.lastname}}
+                            {{form.gender.label_tag}}{{form.gender}}
                             {% if not usertype == "student" %}
                             <label>Registration Code</label>
                             <input name="code" required>
                             {% endif %}
-
-                            <div style="margin-top: 10px;">
-                                <button type="submit">Register</button>&nbsp;Already have an account? <a href="/login">Login</a>
-                            </div>
-                            
-                            <!-- {% for field in form %}
-                            <div class="fieldWrapper">
-                                {{ field.errors }}
-                                {{field.label_tag}}<br>{{field}}
-                            </div>
-                            {% endfor %} -->
+                        </div>
+                        <div class="column">
+                            {{form.birthday.label_tag}}{{form.birthday}}
+                            {{form.department.label_tag}}{{form.department}}                          
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 10px;">
+                        <button type="submit">Register</button>&nbsp;Already have an account? <a href="/login">Login</a>
                     </div>
                     
 
@@ -67,10 +60,14 @@
         display:grid;
     }
 
+    input, select{
+        margin-bottom:10px;
+    }
+
     .row {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Adjust the column sizes as per your needs */
-    gap: 20px; /* Adjust the gap between columns */
+    grid-template-columns: 1fr 1fr  1fr 1fr; /* Adjust the column sizes as per your needs */
+    gap: 10px; /* Adjust the gap between columns */
 }
 </style>
 
