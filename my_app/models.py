@@ -21,7 +21,7 @@ class Users(models.Model):
   status = models.CharField(max_length=225)
   medical_status = models.CharField(max_length=200,choices=medstat, default='', blank=True, null= True)
   medical_condition = models.CharField(max_length=100, default="N/A", blank=True, null= True)
-  medcert = models.ImageField(upload_to='medcert', blank=True, null= True)  
+  medcert = models.ImageField(upload_to='medcert', blank=True, null= True, default='medcert/default.jpg')  
   user_type =  models.CharField(max_length=20)
   list_filter =  models.CharField(max_length=20)
   is_online = models.CharField(max_length=10,default='false')
