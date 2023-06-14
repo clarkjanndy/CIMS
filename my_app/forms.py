@@ -87,9 +87,13 @@ class InventoryForm(forms.ModelForm):
         self.fields['category'].choices = [(x.name, x.name) for x in Category.objects.all().order_by('name')]
 
 class AddStockForm(forms.ModelForm):
+    
     class Meta:
         model=Inventory
-        fields=('quantity',)
+        fields=['quantity', 'purchase_date', 'expiration']
+        widgets = {'purchase_date':forms.DateInput(attrs={'type':'date'}),
+                  'expiration':forms.DateInput(attrs={'type':'date'}),
+                  }
 
 class MessageForm(forms.ModelForm):
     class Meta:

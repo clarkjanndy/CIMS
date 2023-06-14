@@ -5,15 +5,23 @@
         {% for x in item %}
         <form action="{%url 'save_added_stock' x.pk%}" method="post">{% csrf_token %}
             <h3>Add Stock</h3>
-            {% for field in form %}
+            
             <div class="fieldWrapper">
-                {{ field.errors }}
-                {{ field.label_tag }}<br> {{ field }}
-                {% if field.help_text %}
-                <p class="help">{{ field.help_text|safe }}</p>
-                {% endif %}
+               {{form.quantity.label_tag}}
+               {{form.quantity}}<br><br>
+
+              <div class="{% if not expired %}d-none{% endif %}"> 
+                <div class="red">This medicine is expired please also update expiration and purchase date.</div><br>
+
+               {{form.purchase_date.label_tag}}
+               {{form.purchase_date}}<br><br>
+
+               {{form.expiration.label_tag}}
+               {{form.expiration}}
+              </div>
+
+              <input value="{{expired}}" name="is_expired" class="d-none">
             </div>
-            {% endfor %}
             <br><button type="submit">Save</button>
         </form>
         {% endfor %}
@@ -29,7 +37,7 @@
                 <td>Unit</td>
                 <td>Quantity</td>
                 <td>Remaining</td>
-                <td>Expitation Date</td>
+                <td>Expiration Date</td>
                 <td>Image</td>
             </tr>
             <tr>{% for x in item %}
@@ -48,6 +56,20 @@
        
     </div>
 </div>
+
+<style>
+    .d-none{
+        display:  none;
+    }
+
+    .red{
+        background-color: rgba(255, 0, 0, 0.255); 
+        color: rgb(255, 0, 0); 
+        padding: 5px; 
+        border-radius: 10px;
+    }
+
+</style>
 {% endblock %}
 
 

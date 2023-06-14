@@ -564,8 +564,6 @@ def admin_inventory(request):
     all_orders = Order.objects.filter(order_status='')  # Filter orders with order_status = 'A'
 
     form = InventoryForm()
-    
-    print(form)
 
     order = OrderForm()
     template = loader.get_template('admin_inventory.html')
@@ -619,15 +617,28 @@ def save_item(request):
 
 def add_stock(request,pk):
     item=Inventory.objects.filter(id=pk)
-    form=AddStockForm()
+    form=AddStockForm(initial={"expiration": item.first().expiration, "purchase_date": item.first().expiration})
+    
+    expired = False
+    if item.first().expiration <= datetime.date.today():
+        expired = True
+    
     template=loader.get_template('add_stock.html')
-    return HttpResponse(template.render({'form':form,'item':item},request))
+    return HttpResponse(template.render({'form':form,'item':item, 'expired': expired},request))
 
 def save_added_stock(request,pk):
-    a=Inventory.objects.filter(id=pk)
-    for x in a:
-        b=x.remaining+int(request.POST['quantity'])
-    a.update(quantity=b,remaining=b)
+    query=Inventory.objects.filter(id=pk)
+    
+    if request.POST['is_expired'] == 'True':
+        query.update(quantity = request.POST['quantity'], 
+                     remaining = request.POST['quantity'],
+                     purchase_date = request.POST['purchase_date'],
+                     expiration = request.POST['expiration'])
+    else:
+        quantity = query.first().remaining + int(request.POST['quantity'])
+        query.update(quantity = quantity, 
+                     remaining = quantity)
+    
     return add_stock(request,pk)
 
 def delete_stock(request,pk):
