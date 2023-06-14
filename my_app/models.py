@@ -52,6 +52,18 @@ class Inventory(models.Model):
   category = models.CharField(max_length=255, default='')
   remaining = models.IntegerField(default=0)
   status = models.CharField(max_length=225)
+  
+  def save(self, *args, **kwargs):
+    #perform auto increment serial here
+    inv = Inventory.objects.all()
+    if not self.pk:
+      if inv.exists():
+        self.serial = inv.last().serial + 1
+      else:
+        self.serial = 1 
+        
+      self.remaining = self.quantity    
+    super(Inventory, self).save(*args, **kwargs)
 
 class Posts(models.Model):
   content = models.TextField(max_length=50000)

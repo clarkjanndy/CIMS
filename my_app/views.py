@@ -564,6 +564,8 @@ def admin_inventory(request):
     all_orders = Order.objects.filter(order_status='')  # Filter orders with order_status = 'A'
 
     form = InventoryForm()
+    
+    print(form)
 
     order = OrderForm()
     template = loader.get_template('admin_inventory.html')
@@ -597,13 +599,13 @@ def expired(request):
 
 def save_item(request):
     form=InventoryForm(request.POST,request.FILES)
-    a=Inventory.objects.filter(serial=request.POST['serial'])
+    # a=Inventory.objects.filter(serial=request.POST['serial'])
 
     if form.is_valid():
         form.save()
-        for x in a:
-            b=x.remaining+int(request.POST['quantity'])
-            Inventory.objects.filter(serial=request.POST['serial']).update(remaining=b)     
+        # for x in a:
+        #     b=x.remaining+int(request.POST['quantity'])
+        #     Inventory.objects.filter(serial=request.POST['serial']).update(remaining=b)     
         messages.success(request, 'Item successfully added.')   
         return HttpResponseRedirect(reverse('admin_inventory'))
     else:

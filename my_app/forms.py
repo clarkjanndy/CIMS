@@ -70,24 +70,16 @@ class InventoryForm(forms.ModelForm):
     category = forms.ChoiceField(choices=[])
     class Meta:
         model=Inventory
-        fields=('serial','item_name','category','purchase_date','unit','quantity','expiration','item_image')
+        fields=('item_name','category','purchase_date','unit','quantity','expiration','item_image')
         widgets = {'purchase_date':forms.DateInput(attrs={'type':'date'}),
                   'expiration':forms.DateInput(attrs={'type':'date'}),
                   }
-        
-    def clean_serial(self): 
-        serial = self.cleaned_data['serial']       
-        
-        if Inventory.objects.filter(serial = serial).exists():
-            raise forms.ValidationError("Item must be unique.")
-        return serial
     
     def clean_expiration(self):
         expiration = self.cleaned_data['expiration']
         # Check if the date is in the past
         if expiration < date.today():
             raise forms.ValidationError("Expiration date cannot be in the past.")
-        
         return expiration
     
     def __init__(self, *args, **kwargs):
