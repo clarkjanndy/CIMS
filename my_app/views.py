@@ -566,9 +566,9 @@ def save_item(request):
 
     if form.is_valid():
         form.save()
-        # for x in a:
-        #     b=x.remaining+int(request.POST['quantity'])
-        #     Inventory.objects.filter(serial=request.POST['serial']).update(remaining=b)     
+        for x in a:
+            b=x.remaining+int(request.POST['quantity'])
+            Inventory.objects.filter(serial=request.POST['serial']).update(remaining=b)     
         messages.success(request, 'Item successfully added.')   
         return HttpResponseRedirect(reverse('admin_inventory'))
     else:
