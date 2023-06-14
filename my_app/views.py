@@ -25,6 +25,7 @@ from collections import defaultdict
 from django.contrib import messages
 
 from django.db.models import Q
+from django.shortcuts import redirect
 # generating pdf file
 def pdftest(request):
     d=Search.objects.all().filter(id=1)
@@ -125,7 +126,7 @@ def with_condition(request):
         bylevel=UsersForm()
         list_of_users_only='true'
         prof_pic=Admin.objects.filter(email=request.session.get('admin_email'))
-        users=Users.objects.filter(medical_status='With Medical Condition',status="confirmed")
+        users=Users.objects.filter(medical_status='With Medical Condition',status="confirmed", is_active=True)
         template=loader.get_template('admin_users_list.html')
         
         selected_year_level = ''
@@ -154,7 +155,7 @@ def physicaly_fit(request):
         bylevel=UsersForm()
         list_of_users_only='true'
         prof_pic=Admin.objects.filter(email=request.session.get('admin_email'))
-        users=Users.objects.all().filter(medical_status='Physically Fit',status="confirmed")
+        users=Users.objects.all().filter(medical_status='Physically Fit',status="confirmed", is_active = True)
         template=loader.get_template('admin_users_list.html') 
         
         selected_year_level = ''
@@ -177,7 +178,6 @@ def physicaly_fit(request):
         return HttpResponse(template.render(data,request))
 
 def admin_users_list(request):
-    bylevel=UsersForm()
     list_of_users_only='true'
     prof_pic=Admin.objects.filter(email=request.session.get('admin_email'))
     users=Users.objects.all().filter(status="confirmed",user_type="Student", is_active = True)
@@ -236,7 +236,7 @@ def admin_for_confirmation(request):
         return HttpResponseRedirect(reverse('admin_login'))
     else:
         prof_pic=Admin.objects.filter(email=request.session.get('admin_email'))
-        users=Users.objects.all().filter(status='')
+        users=Users.objects.all().filter(status='', is_active=True)
         template=loader.get_template('admin_for_confirmation.html') 
         if users:
             empty_rec="not empty"
@@ -249,8 +249,10 @@ def delete_user(request,pk):
     if request.session.get('admin_email',default="")=="":
         return HttpResponseRedirect(reverse('admin_login'))
     else:
-        Users.objects.filter(id=pk).delete()
-        return HttpResponseRedirect(reverse('admin_for_confirmation'))
+        Users.objects.filter(id=pk).update(is_active=False)
+        
+        previous_url = request.META.get('HTTP_REFERER')
+        return redirect(previous_url)
 
 def edit_user(request,pk):
     user=Users.objects.filter(id=pk)
@@ -817,8 +819,9 @@ def features(request):
     else:
         default_pic='false'
     
-    notifs = Notifications.objects.filter(is_read=False).aggregate(count = Count('id')).get('count', None)
-    data={'default_pic':default_pic,'profile_pic':prof_pic,'count':new_apply_count,'user_type':user, "notifs": notifs}
+    deleted = Users.objects.filter(is_active=False).aggregate(count = Count('id')).get('count', None)
+    
+    data={'default_pic':default_pic,'profile_pic':prof_pic,'count':new_apply_count,'user_type':user, "deleted": deleted}
     return HttpResponse(template.render(data,request))
 
 def message(request):
@@ -1288,6 +1291,38 @@ def save_code(request):
     
     return settings(request)
 
+def deleted_users(request):
+    list_of_users_only='true'
+    prof_pic=Admin.objects.filter(email=request.session.get('admin_email'))
+    users=Users.objects.all().filter(status="confirmed",user_type="Student", is_active = False)
+    template=loader.get_template('admin_deleted_user.html') 
+    
+    selected_year_level = ''
+    if 'year_level' in request.GET:
+            users = users.filter(year_level = request.GET['year_level'])
+            selected_year_level = request.GET['year_level']
+    
+    search = ''     
+    if 'search' in request.GET:
+        search = request.GET['search']
+        users = users.filter(
+                Q(student_id__icontains=search) |
+                Q(firstname__icontains=search) |
+                Q(middlename__icontains=search) |
+                Q(lastname__icontains=search) |
+                Q(address__icontains=search) 
+        )
+            
+    data={'list_of_users_only':list_of_users_only,'search': search,'selected_year_level':selected_year_level,'profile_pic':prof_pic,'users':users,'count':new_apply_count,'date':current_date,'table_title':'Deleted Users'}
+    return HttpResponse(template.render(data,request))
+
+def restore_user(request, id):
+    Users.objects.filter(
+        id = id        
+    ).update(is_active = True)
+    
+    return HttpResponseRedirect('/admin/deleted-users')
+
 def bulk_delete(request):
     Users.objects.filter(
         year_level = 'Senior'        
@@ -1312,7 +1347,6 @@ def view_notif(request, id):
     notif.delete()
     
     return HttpResponseRedirect('/notifications')
-
 
 #reports
 def reports_inventory(request):

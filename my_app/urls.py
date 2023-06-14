@@ -45,7 +45,9 @@ urlpatterns = [
     path('admin/rotc_qualified',views.qualified_rotc_list, name='admin_users_list'),
     path('admin/users_list',views.admin_users_list, name='admin_users_list'),
     path('admin/users_list/view_by_level',views.view_by_level, name='view_by_level'),
-    path('admin/bulk-delete',views.bulk_delete, name='view_by_level'),
+    path('admin/bulk-delete',views.bulk_delete, name='bulk_delete'),
+    path('admin/deleted-users',views.deleted_users, name='deleted_users'),
+    path('admin/restore_user/<int:id>',views.restore_user, name='restore_user'),
     
     path('admin/with_condition',views.with_condition, name='with_condition'),
     path('admin/home/delete_post/<int:pk>',views.delete_post,name='delete_post'),

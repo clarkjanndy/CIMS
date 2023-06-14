@@ -158,6 +158,24 @@
 
                     </div>
                 </div>
+                <div style="display: grid;grid-template-columns: 200px auto;">
+                    <a href="/admin/deleted-users">
+                        <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
+                            <img style="height: 100px;width: 100px;" src="static/assets/trash.jpg" />
+                        </div>
+                    </a>
+                    <div
+                        style="display: flex;flex-direction: column;align-items: flex-start;padding: 1rem;flex-wrap:nowrap;">
+                        <text class="f">Deleted Users
+                            {% if deleted %}
+                            <span style="padding: 5px; background-color: red; color: white; border-radius: 10px;">
+                                {{deleted}}</span>
+                            {% endif %}
+                        </text>
+                        <p>List of deleted users.</p>
+
+                    </div>
+                </div>
                     <!-- <div style="display: grid;grid-template-columns: 200px auto;">
                         <a href="{% url 'notifications' %}">
                             <div style="display: flex;flex-direction: column;align-items: flex-end;padding: 1rem;">
