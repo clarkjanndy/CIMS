@@ -18,8 +18,15 @@
         </form>
         {% endif %}
 
+        <form>
+            <div style="width: 30%; margin-bottom: 10px;">
+                <label>Search: </label>
+               <input class="reg_input" name="search" type="search" placeholder="Type something..." value="{{search}}">
+            </div>
+        </form>
+
         {% if table_title == "List of all Students" and list_of_users_only == "true" %}
-            <a href="/admin/bulk-delete" style="float: right;"><button>Remove All Graduates</button></a>
+            <a href="/admin/bulk-delete" style="float: right;"><button>Remove All Graduates</button></a><br>
         {% endif %} 
 
         <table>

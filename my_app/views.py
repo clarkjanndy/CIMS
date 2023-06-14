@@ -23,6 +23,8 @@ from django.db.models import Sum
 from django.db.models.functions import ExtractMonth, ExtractYear
 from collections import defaultdict
 from django.contrib import messages
+
+from django.db.models import Q
 # generating pdf file
 def pdftest(request):
     d=Search.objects.all().filter(id=1)
@@ -123,15 +125,26 @@ def with_condition(request):
         bylevel=UsersForm()
         list_of_users_only='true'
         prof_pic=Admin.objects.filter(email=request.session.get('admin_email'))
-        users=Users.objects.all().filter(medical_status='With Medical Condition',status="confirmed")
+        users=Users.objects.filter(medical_status='With Medical Condition',status="confirmed")
         template=loader.get_template('admin_users_list.html')
         
         selected_year_level = ''
         if 'year_level' in request.GET:
                 users = users.filter(year_level = request.GET['year_level'])
                 selected_year_level = request.GET['year_level']
+        
+        search = ''     
+        if 'search' in request.GET:
+            search = request.GET['search']
+            users = users.filter(
+                 Q(student_id__icontains=search) |
+                 Q(firstname__icontains=search) |
+                 Q(middlename__icontains=search) |
+                 Q(lastname__icontains=search) |
+                 Q(address__icontains=search) 
+            )
          
-        data={'list_of_users_only':list_of_users_only,'selected_year_level':selected_year_level,'profile_pic':prof_pic,'users':users,'count':new_apply_count,'date':current_date,'table_title':'Users with Medical Conditions','show':'Users Medical Condition'}
+        data={'list_of_users_only':list_of_users_only,'search': search,'selected_year_level':selected_year_level,'profile_pic':prof_pic,'users':users,'count':new_apply_count,'date':current_date,'table_title':'Users with Medical Conditions','show':'Users Medical Condition'}
         return HttpResponse(template.render(data,request))
 
 def physicaly_fit(request):
@@ -148,8 +161,19 @@ def physicaly_fit(request):
         if 'year_level' in request.GET:
                 users = users.filter(year_level = request.GET['year_level'])
                 selected_year_level = request.GET['year_level']
+                
+        search = ''     
+        if 'search' in request.GET:
+            search = request.GET['search']
+            users = users.filter(
+                 Q(student_id__icontains=search) |
+                 Q(firstname__icontains=search) |
+                 Q(middlename__icontains=search) |
+                 Q(lastname__icontains=search) |
+                 Q(address__icontains=search) 
+            )
             
-        data={'list_of_users_only':list_of_users_only,'selected_year_level':selected_year_level,'profile_pic':prof_pic,'users':users,'count':new_apply_count,'date':current_date,'table_title':'Physically Fit Users','show':'With Medical Condition'}
+        data={'list_of_users_only':list_of_users_only,'search': search, 'selected_year_level':selected_year_level,'profile_pic':prof_pic,'users':users,'count':new_apply_count,'date':current_date,'table_title':'Physically Fit Users','show':'With Medical Condition'}
         return HttpResponse(template.render(data,request))
 
 def admin_users_list(request):
@@ -163,8 +187,19 @@ def admin_users_list(request):
     if 'year_level' in request.GET:
             users = users.filter(year_level = request.GET['year_level'])
             selected_year_level = request.GET['year_level']
+    
+    search = ''     
+    if 'search' in request.GET:
+        search = request.GET['search']
+        users = users.filter(
+                Q(student_id__icontains=search) |
+                Q(firstname__icontains=search) |
+                Q(middlename__icontains=search) |
+                Q(lastname__icontains=search) |
+                Q(address__icontains=search) 
+        )
             
-    data={'list_of_users_only':list_of_users_only,'selected_year_level':selected_year_level,'profile_pic':prof_pic,'users':users,'count':new_apply_count,'date':current_date,'table_title':'List of all Students'}
+    data={'list_of_users_only':list_of_users_only,'search': search,'selected_year_level':selected_year_level,'profile_pic':prof_pic,'users':users,'count':new_apply_count,'date':current_date,'table_title':'List of all Students'}
     return HttpResponse(template.render(data,request))
      
 def view_by_level(request):
