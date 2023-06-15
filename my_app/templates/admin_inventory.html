@@ -62,15 +62,19 @@ clear: both;">
             <div>
                 <h4>Order Section</h4>
             </div>
-            <div
-                style="display:grid;grid-template-columns: 100px auto;  margin-left: .5rem; padding: .5rem; border-radius: .6rem; box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.364);">
-                <form action="{%url 'add_order'%}" method="post">{% csrf_token %}
-                    Item Number:{{order.serial}}
-                    Quantity:{{order.quantity}}
-                    Student Name: <input type="text" name="student_name">
-                    <br>
+            <div style="display:grid;grid-template-columns: 200px auto;  margin-left: .5rem; padding: .5rem; border-radius: .6rem; box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.364);">
+                
+                <form action="{%url 'add_order'%}" method="post" style="margin-right: 20px;">
+                    {% csrf_token %}
+                    Item Number:{{order.serial}}<br><br>
+                    Quantity:{{order.quantity}}<br><br>
+                 
+                    Student Name: <input type="text" name="student_name" id="student_name" readonly>
+                    <a href="#" id="openStudentList" style="margin-top: 20px;"><span>Select Student</span></a><br><br>
+                  
                     <button style=" margin-top: .5rem; width:100%;">Enter</button>
                 </form>
+
                 <div>
                     <table>
                         {% for message in messages %}
@@ -187,6 +191,10 @@ clear: both;">
         max-width: 600px;
     }
 
+    .modal-lg{
+        max-width: 800px;
+    }
+
     .close {
         color: #aaa;
         float: right;
@@ -211,6 +219,10 @@ clear: both;">
             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.392);
     }
 
+    .dataTables_filter {
+      margin-bottom: 10px; /* Adjust the bottom margin to increase or decrease the distance */
+    }
+
 </style>
 
 <div id="myModal" class="modal">
@@ -226,7 +238,45 @@ clear: both;">
     </div>
 </div>
 
+<div id="studentListModal" class="modal">
+    <div class="modal-content modal-lg">
+        <span id="closeStudentList" class="close">&times;</span>
+        <h2>Select Student</h2>
+
+        <table id="students">
+            <thead>
+                <tr class="table-header">
+                    <th>Student Name</th>
+                    <th>Department</th>
+                    <th>Address</th>
+                    <th>---</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stud in students %}
+                <tr>
+                    <td>{{stud.firstname}} {{stud.middlename}} {{stud.lastname}}</td>
+                    <td>{{stud.department}}</td>
+                    <td>{{stud.address}}</td>
+                    <td>
+                        <button onclick="select_student(event)" student_name="{{stud.firstname}} {{stud.middlename}} {{stud.lastname}}">Select</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+       
+
+    </div>
+</div>
+
+
+
 <script>
+    var table = document.querySelector("#students")
+
+    var dataTable = new DataTable(table, {
+      });
 
     var openModalBtn = document.getElementById("openModalBtn");
     var closeModalBtn = document.getElementById("closeModalBtn");
@@ -248,6 +298,38 @@ clear: both;">
             modal.style.display = "none";
         }
     });
+
+
+    var openStudentList = document.getElementById("openStudentList");
+    var closeStudentList = document.getElementById("closeStudentList");
+    var studentListModal = document.getElementById("studentListModal");
+
+    // Open the modal
+    openStudentList.addEventListener("click", function () {
+        studentListModal.style.display = "block";
+    });
+
+    // Close the modal
+    closeStudentList.addEventListener("click", function () {
+        studentListModal.style.display = "none";
+    });
+
+    // Close the modal when clicking outside the modal content
+    window.addEventListener("click", function (event) {
+        if (event.target == studentListModal) {
+            studentListModal.style.display = "none";
+        }
+    });
+
+    function select_student(event){
+        event.preventDefault()
+
+        const button = event.target
+        const student_name = button.getAttribute('student_name')
+
+        document.querySelector("#student_name").value = student_name
+        studentListModal.style.display = "none";    
+    }
 
 </script>
 {% endblock %}

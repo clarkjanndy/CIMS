@@ -564,6 +564,8 @@ def admin_inventory(request):
 
     all_items = Inventory.objects.all()
     all_orders = Order.objects.filter(order_status='')  # Filter orders with order_status = 'A'
+    
+    students = Users.objects.all().filter(status="confirmed",user_type="Student", is_active = True)
 
     form = InventoryForm()
 
@@ -571,7 +573,7 @@ def admin_inventory(request):
     template = loader.get_template('admin_inventory.html')
 
     notifs = Notifications.objects.filter(is_read=False).aggregate(count=Count('id')).get('count', None)
-    return HttpResponse(template.render({'all_orders': all_orders, 'order': order, 'table_title': 'all types of illness', 'count': new_apply_count, 'form': form, 'date': current_date, 'items': all_items, "notifs": notifs}, request))
+    return HttpResponse(template.render({'all_orders': all_orders, 'order': order, 'table_title': 'all types of illness', 'count': new_apply_count, 'form': form, 'date': current_date, 'items': all_items, "notifs": notifs, "students": students}, request))
 
 def list_by(request):
     form=InventoryForm()
